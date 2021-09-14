@@ -29,28 +29,36 @@ public class Program {
 	num1.Value = 1;
 	num1.Maximum = 100;
 	num1.Minimum = 1;
-	// num1.ValueChanged += num1_Cambio;
+	num1.ValueChanged += new EventHandler(num1_Cambio);
 	// num1.Show();
+        
+	// añadir elementos a la ventana
+	f.Controls.Add(etiqueta1);
+	f.Controls.Add(num1);
+	
+	Application.Run(f);
+    }
+
+    private static void num1_Cambio(object remitente, EventArgs e) {
+	var num_renglones = num1.Value;
+
+	if(f.Controls.Contains(cuadricula1)) {
+	    f.Controls.Remove(cuadricula1);
+	    cuadricula1.Dispose();
+	}
 	
 	tabla = new DataTable();
 	tabla.Columns.Add("X", typeof(float));
 	tabla.Columns.Add("Y", typeof(float));
-	tabla.Rows.Add(new object[] {1, 2});
+	for(int i = 0; i < num_renglones; i++) {
+	    tabla.Rows.Add(new object[] {0, 0});
+	}
 
 	cuadricula1 = new DataGridView();
 	cuadricula1.Location = new Point(0, 50);
 	cuadricula1.Size = new Size(300, 300);
         cuadricula1.DataSource = tabla;
 
-	// añadir elementos a la ventana
-	f.Controls.Add(etiqueta1);
-	f.Controls.Add(num1);
 	f.Controls.Add(cuadricula1);
-	
-	Application.Run(f);
     }
-
-    private static void num1_Cambio(object remitente, EventArgs e) {
-	Console.WriteLine("olas");
-	}
 }
