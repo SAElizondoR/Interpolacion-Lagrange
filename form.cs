@@ -1,28 +1,56 @@
 using System;
+using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
-// compilar con mcs form.cs -r:System.Drawing.dll -r:System.Windows.Forms.dll
+// compilar con mcs form.cs -r:System.Data.dll -r:System.Drawing.dll -r:System.Windows.Forms.dll
 
 public class Program {
+    private static Form f;
+    private static Label etiqueta1;
+    private static NumericUpDown num1;
+    private static DataTable tabla;
+    private static DataGridView cuadricula1;
+
     [STAThread]
     public static void Main() {
-	var f = new Form();
+	f = new Form();
 	f.Text = "Interpolación de Lagrange";
-
-	var etiqueta1 = new Label();
-	etiqueta1.Text = "Cantidad de datos";
-	etiqueta1.Size = new Size(etiqueta1.PreferredWidth, etiqueta1.PreferredHeight + 2);
 	
-	var num1 = new NumericUpDown();
-	num1.Dock = System.Windows.Forms.DockStyle.Top;
+	
+	etiqueta1 = new Label();
+	etiqueta1.Text = "Cantidad de datos";
+	etiqueta1.Size = new Size(etiqueta1.PreferredWidth, etiqueta1.PreferredHeight);
+	num1 = new NumericUpDown();
+	// num1.Dock = System.Windows.Forms.DockStyle.Top;
+	num1.Location = new Point(0,22);
+	num1.Name = "num1";
+	num1.Size = new Size(228, 20);
 	num1.Value = 1;
 	num1.Maximum = 100;
 	num1.Minimum = 1;
+	// num1.ValueChanged += num1_Cambio;
+	// num1.Show();
+	
+	tabla = new DataTable();
+	tabla.Columns.Add("X", typeof(float));
+	tabla.Columns.Add("Y", typeof(float));
+	tabla.Rows.Add(new object[] {1, 2});
 
+	cuadricula1 = new DataGridView();
+	cuadricula1.Location = new Point(0, 50);
+	cuadricula1.Size = new Size(300, 300);
+        cuadricula1.DataSource = tabla;
+
+	// añadir elementos a la ventana
 	f.Controls.Add(etiqueta1);
 	f.Controls.Add(num1);
+	f.Controls.Add(cuadricula1);
 	
 	Application.Run(f);
     }
+
+    private static void num1_Cambio(object remitente, EventArgs e) {
+	Console.WriteLine("olas");
+	}
 }
