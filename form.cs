@@ -31,15 +31,26 @@ public class Program {
 	num1.Location = new Point(0,20);
 	num1.Name = "num1";
 	num1.Size = new Size(228, 20);
-	num1.Value = 1;
+	num1.Value = 0;
 	num1.Maximum = 100;
-	num1.Minimum = 1;
+	num1.Minimum = 0;
 	num1.ValueChanged += new EventHandler(num1_Cambio);
 	// num1.Show();
 
 	etiqueta2 = new Label();
 	etiqueta2.Text = "Valor a encontrar:";
 	etiqueta2.Size = new Size(etiqueta2.PreferredWidth, etiqueta2.PreferredHeight);
+	etiqueta2.Location = new Point(0, 40);
+
+	num2 = new NumericUpDown();
+	num2.Location = new Point(0,60);
+	num2.Name = "num2";
+	num2.Size = new Size(228, 20);
+	num2.Value = 0;
+	num2.Maximum = 1000;
+	num2.Minimum = -1000;
+	num2.DecimalPlaces = 2;
+	num2.Increment = 0.1M;
 
 	btn = new Button();
 	btn.Text = "Resolver";
@@ -78,9 +89,10 @@ public class Program {
 	}
 
 	cuadricula1 = new DataGridView();
-	cuadricula1.Location = new Point(0, 150);
-	cuadricula1.Size = new Size(250, 300);
+	cuadricula1.Location = new Point(0, 160);
+	cuadricula1.Size = new Size(245, 25 + 22 * Decimal.ToInt32(num_renglones));
         cuadricula1.DataSource = tabla;
+	cuadricula1.AllowUserToAddRows = false;
 
 	f.Controls.Add(cuadricula1);
     }
@@ -126,6 +138,6 @@ public class Program {
 	}
 
 	//printf("\n\t y(%.3f) = %f", evaluar, res);
-	resultado.Text = ($"Resultado: y({evaluar})={res}");
+	resultado.Text = ($"Resultado:\ny({evaluar})={res}");
     }
 }
