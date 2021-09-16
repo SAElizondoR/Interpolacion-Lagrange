@@ -20,6 +20,7 @@ public class Program {
     public static void Main() {
 	f = new Form();
 	f.Text = "Interpolación de Lagrange";
+	f.Size = new Size(300, 400);
 	
 	
 	etiqueta1 = new Label();
