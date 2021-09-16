@@ -29,7 +29,7 @@ public class Program {
 	
 	num1 = new NumericUpDown();
 	// num1.Dock = System.Windows.Forms.DockStyle.Top;
-	num1.Location = new Point(0,20);
+	num1.Location = new Point(2,20);
 	num1.Name = "num1";
 	num1.Size = new Size(228, 20);
 	num1.Value = 0;
@@ -41,10 +41,10 @@ public class Program {
 	etiqueta2 = new Label();
 	etiqueta2.Text = "Valor a encontrar:";
 	etiqueta2.Size = new Size(etiqueta2.PreferredWidth, etiqueta2.PreferredHeight);
-	etiqueta2.Location = new Point(0, 40);
+	etiqueta2.Location = new Point(2, 40);
 
 	num2 = new NumericUpDown();
-	num2.Location = new Point(0,60);
+	num2.Location = new Point(2,60);
 	num2.Name = "num2";
 	num2.Size = new Size(228, 20);
 	num2.Value = 0;
@@ -55,13 +55,13 @@ public class Program {
 
 	btn = new Button();
 	btn.Text = "Resolver";
-	btn.Location = new Point(0, 90);
+	btn.Location = new Point(2, 90);
 	btn.Size = new Size(70, 20);
 	btn.Click += new EventHandler(btn_Seleccionado);
 
 	resultado = new Label();
 	resultado.Text = "Resultado:";
-	resultado.Location = new Point(0, 120);
+	resultado.Location = new Point(2, 120);
         
 	// añadir elementos a la ventana
 	f.Controls.Add(etiqueta1);
@@ -90,7 +90,7 @@ public class Program {
 	}
 
 	cuadricula1 = new DataGridView();
-	cuadricula1.Location = new Point(0, 160);
+	cuadricula1.Location = new Point(2, 160);
 	cuadricula1.Size = new Size(245, 25 + 22 * Decimal.ToInt32(num_renglones));
         cuadricula1.DataSource = tabla;
 	cuadricula1.AllowUserToAddRows = false;
@@ -105,7 +105,7 @@ public class Program {
 	 int pares = 0, i = 0, j = 0;*/
 	float[] x = new float[101];
 	float[] y = new float[101];
-	float res = 0, evaluar = 0, prodnumerador = 0, prodenominador = 0;
+	float? res = null, evaluar = 0, prodnumerador = 0, prodenominador = 0;
 	int pares = 0, i = 0, j = 0;
 
 	/*printf("\t----------METODO DE LAGRANGE-----------\n\n");
@@ -126,6 +126,9 @@ public class Program {
 	scanf("%f", &evaluar);*/
 	evaluar= (float)num2.Value;
 
+	if (pares != 0)
+	    res = 0;
+	
 	for (i = 0; i < pares; i++){
 	    prodnumerador = 1;
 	    prodenominador = 1;
@@ -139,6 +142,9 @@ public class Program {
 	}
 
 	//printf("\n\t y(%.3f) = %f", evaluar, res);
-	resultado.Text = ($"Resultado:\ny({evaluar})={res}");
+	if(res != null && !Double.IsNaN(Convert.ToDouble(res)))
+	    resultado.Text = ($"Resultado:\ny({evaluar})={res}");
+	else
+	    resultado.Text = ($"Resultado:\ny({evaluar})=N. D.");
     }
 }
