@@ -3,12 +3,16 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
-// compilar con mcs form.cs -r:System.Data.dll -r:System.Drawing.dll -r:System.Windows.Forms.dll
+// compilar con  ! mcs form.cs -r:System.Data.dll -r:System.Drawing.dll -r:System.Windows.Forms.dll
 
 public class Program {
     private static Form f;
     private static Label etiqueta1;
     private static NumericUpDown num1;
+    private static Label etiqueta2;
+    private static NumericUpDown num2;
+    private static Button btn;
+    private static Label resultado;
     private static DataTable tabla;
     private static DataGridView cuadricula1;
 
@@ -19,11 +23,12 @@ public class Program {
 	
 	
 	etiqueta1 = new Label();
-	etiqueta1.Text = "Cantidad de datos";
+	etiqueta1.Text = "Cantidad de datos:";
 	etiqueta1.Size = new Size(etiqueta1.PreferredWidth, etiqueta1.PreferredHeight);
+	
 	num1 = new NumericUpDown();
 	// num1.Dock = System.Windows.Forms.DockStyle.Top;
-	num1.Location = new Point(0,22);
+	num1.Location = new Point(0,20);
 	num1.Name = "num1";
 	num1.Size = new Size(228, 20);
 	num1.Value = 1;
@@ -31,10 +36,28 @@ public class Program {
 	num1.Minimum = 1;
 	num1.ValueChanged += new EventHandler(num1_Cambio);
 	// num1.Show();
+
+	etiqueta2 = new Label();
+	etiqueta2.Text = "Valor a encontrar:";
+	etiqueta2.Size = new Size(etiqueta2.PreferredWidth, etiqueta2.PreferredHeight);
+
+	btn = new Button();
+	btn.Text = "Resolver";
+	btn.Location = new Point(0, 90);
+	btn.Size = new Size(70, 20);
+	btn.Click += new EventHandler(btn_Seleccionado);
+
+	resultado = new Label();
+	resultado.Text = "Resultado:";
+	resultado.Location = new Point(0, 120);
         
 	// añadir elementos a la ventana
 	f.Controls.Add(etiqueta1);
 	f.Controls.Add(num1);
+	f.Controls.Add(etiqueta2);
+	f.Controls.Add(num2);
+	f.Controls.Add(btn);
+	f.Controls.Add(resultado);
 	
 	Application.Run(f);
     }
@@ -55,10 +78,54 @@ public class Program {
 	}
 
 	cuadricula1 = new DataGridView();
-	cuadricula1.Location = new Point(0, 50);
-	cuadricula1.Size = new Size(300, 300);
+	cuadricula1.Location = new Point(0, 150);
+	cuadricula1.Size = new Size(250, 300);
         cuadricula1.DataSource = tabla;
 
 	f.Controls.Add(cuadricula1);
+    }
+
+    private static void btn_Seleccionado(object remitente, EventArgs e) {
+	//Console.WriteLine("Hello World!");
+        /* float x[101], y[101], res = 0, evaluar = 0;
+	 float prodnumerador = 0, prodenominador = 0;
+	 int pares = 0, i = 0, j = 0;*/
+	float[] x = new float[101];
+	float[] y = new float[101];
+	float res = 0, evaluar = 0, prodnumerador = 0, prodenominador = 0;
+	int pares = 0, i = 0, j = 0;
+
+	/*printf("\t----------METODO DE LAGRANGE-----------\n\n");
+	printf("\n\t%cCuantos pares ordenados desea ingresar? : ", 168);
+	scanf("%i", &pares);*/
+	pares = Decimal.ToInt32(num1.Value);
+
+	/*for (i = 0; i < pares; i++){
+	    printf("\n\tIngrese el par %i,%i: \n\t", i, i);
+	    scanf("%f,%f", &x[i], &y[i]);
+	}*/
+	for (i = 0; i < pares; i++){
+	    x[i] = (float)cuadricula1.Rows[i].Cells[0].Value;
+	    y[i] = (float)cuadricula1.Rows[i].Cells[1].Value;;
+	}
+
+	/*printf("\n\t%cPara que valor de x desea evaluar? : ", 168);
+	scanf("%f", &evaluar);*/
+	evaluar= (float)num2.Value;
+
+	for (i = 0; i < pares; i++){
+	    prodnumerador = 1;
+	    prodenominador = 1;
+	    for (j = 0; j < pares; j++){
+		if (i != j){
+		    prodnumerador = prodnumerador * (evaluar - x[j]);
+		    prodenominador = prodenominador * (x[i] - x[j]);
+		}
+	    }
+	    res = res + y[i] * (prodnumerador / prodenominador);
+	}
+
+	//printf("\n\t y(%.3f) = %f", evaluar, res);
+	resultado.Text = ($"Resultado: y({evaluar})={res}");
     }
 }
