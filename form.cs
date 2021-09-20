@@ -62,6 +62,7 @@ public class Program {
 	resultado = new Label();
 	resultado.Text = "Resultado:";
 	resultado.Location = new Point(2, 120);
+	resultado.Size = new Size(200, 30);
         
 	// añadir elementos a la ventana
 	f.Controls.Add(etiqueta1);
@@ -75,9 +76,10 @@ public class Program {
     }
 
     private static void num1_Cambio(object remitente, EventArgs e) {
+	resultado.Text = "Resultado:";  // borrar el resultado anterior
 	var num_renglones = num1.Value;
 
-	if(f.Controls.Contains(cuadricula1)) {
+	if(f.Controls.Contains(cuadricula1)) {  // borrar la cuadrícula anterior
 	    f.Controls.Remove(cuadricula1);
 	    cuadricula1.Dispose();
 	}
@@ -85,12 +87,14 @@ public class Program {
 	tabla = new DataTable();
 	tabla.Columns.Add("X", typeof(float));
 	tabla.Columns.Add("Y", typeof(float));
+	// agregar todos los renglones de la tabla
 	for(int i = 0; i < num_renglones; i++) {
 	    tabla.Rows.Add(new object[] {0, 0});
 	}
 
 	cuadricula1 = new DataGridView();
 	cuadricula1.Location = new Point(2, 160);
+	// el tamaño de la cuadrícula depende del número de renglones
 	cuadricula1.Size = new Size(245, 25 + 22 * Decimal.ToInt32(num_renglones));
         cuadricula1.DataSource = tabla;
 	cuadricula1.AllowUserToAddRows = false;
@@ -126,9 +130,21 @@ public class Program {
 	scanf("%f", &evaluar);*/
 	evaluar= (float)num2.Value;
 
+	// validar que no haya dos x iguales
+	for (i = 0; i < pares; i++) {
+	    for (j = 0; j < i; j++) {
+		if (x[i] == x[j]) {
+		    resultado.Text = ("Entrada incorrecta");
+		    return;
+		}
+	    }
+	}
+
+	// si hay más de un par, iniciar la variable res en 0
 	if (pares != 0)
 	    res = 0;
-	
+
+	// algoritmo: método de Lagrange
 	for (i = 0; i < pares; i++){
 	    prodnumerador = 1;
 	    prodenominador = 1;
@@ -142,9 +158,10 @@ public class Program {
 	}
 
 	//printf("\n\t y(%.3f) = %f", evaluar, res);
+	// si el resultado es distinto de nulo y de NaN
 	if(res != null && !Double.IsNaN(Convert.ToDouble(res)))
-	    resultado.Text = ($"Resultado:\ny({evaluar})={res}");
+	    resultado.Text = ($"Resultado: y({evaluar})={res}");
 	else
-	    resultado.Text = ($"Resultado:\ny({evaluar})=N. D.");
+	    resultado.Text = ($"Resultado: y({evaluar})=N. D.");
     }
 }
