@@ -33,7 +33,7 @@ public class Program {
 	num1.Name = "num1";
 	num1.Size = new Size(228, 20);
 	num1.Value = 0;
-	num1.Maximum = 100;
+	num1.Maximum = 20;
 	num1.Minimum = 0;
 	num1.ValueChanged += new EventHandler(num1_Cambio);
 	// num1.Show();
@@ -82,6 +82,7 @@ public class Program {
 	if(f.Controls.Contains(cuadricula1)) {  // borrar la cuadrícula anterior
 	    f.Controls.Remove(cuadricula1);
 	    cuadricula1.Dispose();
+	    cuadricula1 = null;
 	}
 	
 	tabla = new DataTable();
